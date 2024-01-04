@@ -1,9 +1,11 @@
 package com.example.demo.models;
 
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -17,25 +19,13 @@ public class User {
   //можно не указывать Column name, если оно совпадает с названием столбца в таблице
   private int age;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Auto> autos;
-
-  public User() {
-  }
-
   public User(String name, int age) {
     this.name = name;
     this.age = age;
-    autos = new ArrayList<>();
   }
 
-  public void addAuto(Auto auto) {
-    auto.setUser(this);
-    autos.add(auto);
-  }
+  public User() {
 
-  public void removeAuto(Auto auto) {
-    autos.remove(auto);
   }
 
   public int getId() {
@@ -58,17 +48,9 @@ public class User {
     this.age = age;
   }
 
-  public List<Auto> getAutos() {
-    return autos;
-  }
-
-  public void setAutos(List<Auto> autos) {
-    this.autos = autos;
-  }
-
   @Override
   public String toString() {
-    return "models.User{" +
+    return "User{" +
            "id=" + id +
            ", name='" + name + '\'' +
            ", age=" + age +

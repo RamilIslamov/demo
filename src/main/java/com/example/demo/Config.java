@@ -1,9 +1,11 @@
 package com.example.demo;
 
-import com.example.demo.dao.AutoDao;
-import com.example.demo.dao.UserDao;
-import com.example.demo.services.AutoService;
-import com.example.demo.services.UserServices;
+import com.example.demo.repo.AutoRepo;
+import com.example.demo.repo.UserRepo;
+import com.example.demo.service.ServiceAuto;
+import com.example.demo.service.ServiceUser;
+import com.example.demo.service.impl.AutoService;
+import com.example.demo.service.impl.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,12 +13,12 @@ import org.springframework.context.annotation.Configuration;
 public class Config {
 
   @Bean
-  public UserServices initUserServices(UserDao userDao) {
-    return new UserServices(userDao);
+  public ServiceUser initUserServices(UserRepo userRepo) {
+    return new UserService(userRepo);
   }
 
   @Bean
-  public AutoService initAutoService(AutoDao autoDao) {return new AutoService(autoDao);}
+  public ServiceAuto initAutoService(AutoRepo autoRepo) {return new AutoService(autoRepo);}
 }
 
 

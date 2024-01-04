@@ -16,10 +16,6 @@ public class Auto {
   private String color;
 
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
-
   public Auto() {
   }
 
@@ -48,13 +44,6 @@ public class Auto {
     this.color = color;
   }
 
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
 
   @Override
   public String toString() {

@@ -1,8 +1,8 @@
-package com.example.demo.dao;
+package com.example.demo.repo;
 
 import com.example.demo.models.Auto;
 import org.springframework.data.repository.CrudRepository;
 
-public interface AutoDao extends CrudRepository<Auto, Integer> {
+public interface AutoRepo extends CrudRepository<Auto, Integer> {
 
 }
