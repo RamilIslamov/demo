@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.example.demo.auto.service;
 
-import com.example.demo.models.Auto;
+import com.example.demo.auto.persistence.entity.Auto;
 
 import java.util.List;
 
@@ -13,5 +13,4 @@ public interface AutoService {
     Auto save(Auto auto);
 
     void delete(Auto auto);
-
 }

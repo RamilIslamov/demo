@@ -1,6 +1,6 @@
 package com.example.demo.user;
 
-import com.example.demo.user.persictence.repository.UserRepository;
+import com.example.demo.user.persistence.repository.UserRepository;
 import com.example.demo.user.rest.converter.UserConverter;
 import com.example.demo.user.rest.converter.impl.UserConverterImpl;
 import com.example.demo.user.service.UserService;

@@ -1,13 +1,12 @@
 package com.example.demo.user.service.impl;
 
-import com.example.demo.user.persictence.entity.User;
-import com.example.demo.user.persictence.repository.UserRepository;
+import com.example.demo.user.persistence.entity.User;
+import com.example.demo.user.persistence.repository.UserRepository;
 import com.example.demo.user.service.UserService;
 
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
-import static org.apache.commons.collections4.IteratorUtils.toList;
 
 public class UserServiceImpl implements UserService {
 
@@ -18,7 +17,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> findAll() {
-        return toList(userRepository.findAll().iterator());
+        return userRepository.findAllOrderById();
     }
 
     public User find(int id) {

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -34,12 +33,8 @@ public class UserController {
 
     @GetMapping
     public List<User> getAll() {
-        //TODO: нахуй тут компаратор делать если это можно сделать сразу в датабазе. https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
-        Comparator<com.example.demo.user.persictence.entity.User> sortById = (Comparator.comparingInt(com.example.demo.user.persictence.entity.User::getId));
-        //TODO: есои пользуешься стримами гораздо удобней методы переносить на новую строку тогда в идее подсказака появляется чо на выходею да и красивее
         return userService.findAll()
                           .stream()
-                          .sorted(sortById)
                           .map(userConverter::convert)
                           .collect(toList());
 
@@ -50,8 +45,8 @@ public class UserController {
         return userConverter.convert(getUser(Integer.parseInt(id)));
     }
 
-    private com.example.demo.user.persictence.entity.User getUser(int id) {
-        com.example.demo.user.persictence.entity.User user = userService.find(id);
+    private com.example.demo.user.persistence.entity.User getUser(int id) {
+        com.example.demo.user.persistence.entity.User user = userService.find(id);
         if (user == null) {
             throw new NotFoundException();
         } else {
@@ -60,13 +55,13 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody com.example.demo.user.persictence.entity.User user) {
+    public User create(@RequestBody com.example.demo.user.persistence.entity.User user) {
         return userConverter.convert(userService.save(user));
     }
 
     @PutMapping("{id}")
-    public User update(@PathVariable String id, @RequestBody com.example.demo.user.persictence.entity.User user) {
-        com.example.demo.user.persictence.entity.User userFromDb = getUser(Integer.parseInt(id));
+    public User update(@PathVariable String id, @RequestBody com.example.demo.user.persistence.entity.User user) {
+        com.example.demo.user.persistence.entity.User userFromDb = getUser(Integer.parseInt(id));
 
         if (user.getAge() != 0) {
             userFromDb.setAge(user.getAge());
@@ -81,7 +76,7 @@ public class UserController {
 
     @DeleteMapping("{id}")
     public String delete(@PathVariable String id) {
-        com.example.demo.user.persictence.entity.User user = getUser(Integer.parseInt(id));
+        com.example.demo.user.persistence.entity.User user = getUser(Integer.parseInt(id));
         userService.delete(user);
         return "User: " + user + " has been deleted from db";
     }

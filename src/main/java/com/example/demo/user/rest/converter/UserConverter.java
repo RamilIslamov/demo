@@ -4,6 +4,6 @@ import com.example.demo.user.rest.model.User;
 
 public interface UserConverter {
 
-    User convert(com.example.demo.user.persictence.entity.User user);
+    User convert(com.example.demo.user.persistence.entity.User user);
 
 }
