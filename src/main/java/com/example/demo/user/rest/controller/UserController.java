@@ -1,6 +1,5 @@
 package com.example.demo.user.rest.controller;
 
-import com.example.demo.common.exception.NotFoundException;
 import com.example.demo.user.rest.converter.UserConverter;
 import com.example.demo.user.rest.model.User;
 import com.example.demo.user.service.UserService;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("user")
@@ -33,25 +31,13 @@ public class UserController {
 
     @GetMapping
     public List<User> getAll() {
-        return userService.findAll()
-                          .stream()
-                          .map(userConverter::convert)
-                          .collect(toList());
-
+        return userConverter.convert(userService.findAll());
     }
 
     @GetMapping("{id}")
-    public User getOne(@PathVariable String id) {
-        return userConverter.convert(getUser(Integer.parseInt(id)));
-    }
-
-    private com.example.demo.user.persistence.entity.User getUser(int id) {
-        com.example.demo.user.persistence.entity.User user = userService.find(id);
-        if (user == null) {
-            throw new NotFoundException();
-        } else {
-            return user;
-        }
+    public User getOne(@PathVariable Integer id) {
+        requireNonNull(id, "id is required to be not null.");
+        return userConverter.convert(userService.getById(id));
     }
 
     @PostMapping
@@ -60,23 +46,17 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public User update(@PathVariable String id, @RequestBody com.example.demo.user.persistence.entity.User user) {
-        com.example.demo.user.persistence.entity.User userFromDb = getUser(Integer.parseInt(id));
-
-        if (user.getAge() != 0) {
-            userFromDb.setAge(user.getAge());
-        }
-        if (user.getName() != null) {
-            userFromDb.setName(user.getName());
-        }
-        userService.save(userFromDb);
-
-        return userConverter.convert(userFromDb);
+    public User update(@PathVariable Integer id, @RequestBody User user) {
+        com.example.demo.user.persistence.entity.User passedUser = userConverter.convert(user);
+        return userConverter.convert(userService.upsert(id, passedUser));
     }
 
     @DeleteMapping("{id}")
-    public String delete(@PathVariable String id) {
-        com.example.demo.user.persistence.entity.User user = getUser(Integer.parseInt(id));
+    public String delete(@PathVariable Integer id) {
+        com.example.demo.user.persistence.entity.User user = userService.getById(id);
+        if (null == user) {
+            return "Нет такого юзера с айди = " + id;
+        }
         userService.delete(user);
         return "User: " + user + " has been deleted from db";
     }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface AutoRepository extends CrudRepository<Auto, Integer> {
 
     List<Auto> findAllByIdNotNullOrderById();
+
 }
