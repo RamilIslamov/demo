@@ -1,6 +1,6 @@
 package com.example.demo.user.service;
 
-import com.example.demo.user.persictence.entity.User;
+import com.example.demo.user.persistence.entity.User;
 
 import java.util.List;
 
